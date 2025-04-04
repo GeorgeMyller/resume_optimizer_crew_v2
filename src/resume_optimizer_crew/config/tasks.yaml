@@ -1,0 +1,24 @@
+
+extract_curriculum_data:
+  description: >
+    Leia o arquivo `.tex` do currículo e extraia uma lista estruturada contendo:
+    - Experiências profissionais
+    - Habilidades
+    - Formação acadêmica
+  expected_output: >
+    Um dicionário estruturado com esses três campos.
+
+analyze_job_description:
+  description: >
+    Leia a descrição da vaga (PDF ou link) e extraia:
+    - Requisitos técnicos
+    - Experiências valorizadas
+    - Palavras-chave
+  expected_output: >
+    Um resumo com bullet points indicando o que precisa ser evidenciado no currículo.
+
+adjust_resume_for_job:
+  description: >
+    Com base nas informações extraídas do currículo original e nos requisitos da vaga, reorganize e reescreva partes do `.tex` para melhorar a aderência. Não adicione novas experiências.
+  expected_output: >
+    Um novo arquivo `.tex` com as modificações.
