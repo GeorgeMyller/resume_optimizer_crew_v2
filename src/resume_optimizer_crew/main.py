@@ -1,5 +1,10 @@
-
+'''
+This is the main module that runs the resume optimization crew.
+It loads environment variables, configures the crew, and kicks off the optimization process.
+'''
 import os
+import sys
+sys.path.append('/Users/georgesouza/Desktop/Python2025/Curriculo/resume_optimizer_crew_v2/src')
 from resume_optimizer_crew.crew import crew
 from dotenv import load_dotenv
 
