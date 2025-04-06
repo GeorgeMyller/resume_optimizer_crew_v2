@@ -6,9 +6,13 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "beautifulsoup4>=4.13.3",
+    "composio-core>=0.7.14",
+    "composio-gemini>=0.7.14",
     "crewai>=0.108.0",
     "crewai-tools>=0.38.1",
+    "numpy>=2.2.4",
     "onnxruntime==1.17.3",
     "packaging>=24.2",
     "requests>=2.32.3",
+    "ruff>=0.11.4",
 ]
