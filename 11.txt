@@ -1,0 +1,110 @@
+GeorgeMyller:   └── 🔧 Failed Read website content (1)
+
+╭──────────────────────────── Tool Error ─────────────────────────────╮
+│                                                                     │
+│  Tool Usage Failed                                                  │
+│  Name: Read website content                                         │
+│  Error: Invalid URL 'Provide URL here': No scheme supplied.         │
+│  Perhaps you meant https://Provide URL here?                        │
+│                                                                     │
+│                                                                     │
+╰─────────────────────────────────────────────────────────────────────╯
+
+ 
+
+I encountered an error while trying to use the tool. This was the error: Invalid URL 'Provide URL here': No scheme supplied. Perhaps you meant https://Provide URL here?.
+ Tool Read website content accepts these inputs: Tool Name: Read website content
+Tool Arguments: {'website_url': {'description': 'Mandatory website url to read the file', 'type': 'str'}}
+Tool Description: A tool that can be used to read a website content.
+
+
+GitHub Copilot: The error means you passed the literal string “Provide URL here” instead of a real URL. The scraper requires a fully‑qualified URL (including `http://` or `https://`). Please retry the tool call with something like:
+
+```json
+{"website_url": "https://example.com/your-job-description"}
+```
+
+Let me know the actual job‑description URL and I can re‑run the tool for you.
+
+GeorgeMyller: Action 'None' don't exist, these are the only available Actions:
+Tool Name: LatexReaderTool
+Tool Arguments: {'file_path': {'description': None, 'type': 'str'}}
+Tool Description: 
+    Extrai texto limpo e estruturado de um arquivo .tex de currículo.
+
+    Espera o parâmetro file_path (string) com o caminho do arquivo .tex.
+    
+Tool Name: Search a PDF's content
+Tool Arguments: {'query': {'description': "Mandatory query you want to use to search the PDF's content", 'type': 'str'}, 'pdf': {'description': 'Mandatory pdf path you want to search', 'type': 'str'}}
+Tool Description: A tool that can be used to semantic search a query from a PDF's content.
+
+
+GitHub Copilot: The error means you tried to invoke an action named “None,” which doesn’t exist. Here are the two valid calls and their signatures:
+
+1. To extract plain text from a .tex resume:
+   • Tool: LatexReaderTool  
+   • Arguments:  
+     – file_path (string): path to your .tex file  
+   JSON example:
+   ```
+   {"tool": "LatexReaderTool", 
+    "file_path": "/Users/georgesouza/Desktop/Python2025/Curriculo/resume_optimizer_crew_v2/input/curriculo.tex"}
+   ```
+
+2. To semantic‐search a PDF:
+   • Tool: Search a PDF's content  
+   • Arguments:  
+     – pdf (string): path to the PDF file  
+     – query (string): your search term  
+   JSON example:
+   ```
+   {"tool": "Search a PDF's content",
+    "pdf": "/Users/georgesouza/Desktop/Python2025/Curriculo/resume_optimizer_crew_v2/input/curriculo.pdf",
+    "query": "experience"}
+   ```
+
+Replace the paths and query as needed and re‑invoke one of those tools.
+
+GeorgeMyller: use To semantic‐search a PDF: • Tool: Search a PDF's content
+
+GitHub Copilot: To run a semantic search over your resume PDF you’ll use the “Search a PDF’s content” tool, which takes two parameters:
+
+- **pdf**: path to your PDF (e.g. `/Users/…/input/curriculo.pdf`)  
+- **query**: the term or phrase you want to find  
+
+Please tell me what keyword or phrase you’d like to search for in the PDF (for example, “Python”, “experience”, “education”), and I’ll invoke the tool with that query.
+
+GeorgeMyller: me explique o que está acontecendo Action 'None # No further action needed, I have the data.' don't exist, these are the only available Actions:
+Tool Name: LatexReaderTool
+Tool Arguments: {'inputs': {'description': None, 'type': 'dict'}, 'file_path': {'description': None, 'type': 'str'}}
+Tool Description: 
+    Extrai texto limpo e estruturado de um arquivo .tex de currículo.
+
+    Você pode passar o caminho do arquivo .tex diretamente como `file_path` ou via um dict `inputs` com chave 'file_path'.
+    
+Tool Name: Search a PDF's content
+Tool Arguments: {'query': {'description': "Mandatory query you want to use to search the PDF's content", 'type': 'str'}, 'pdf': {'description': 'Mandatory pdf path you want to search', 'type': 'str'}}
+Tool Description: A tool that can be used to semantic search a query from a PDF's content.
+
+GitHub Copilot: Você tentou invocar uma ação chamada  
+`None # No further action needed, I have the data.`  
+mas não existe nenhuma ferramenta com esse nome. As únicas ações disponíveis são:
+
+1. LatexReaderTool  
+   • Argumentos:  
+     – inputs (dict)  
+     – file_path (str)  
+
+2. Search a PDF’s content  
+   • Argumentos:  
+     – pdf (str)  
+     – query (str)  
+
+Para usar uma delas, escolha exatamente o “tool” e forneça seus parâmetros em JSON, por exemplo:  
+```json
+{"tool":"LatexReaderTool","file_path":"/caminho/para/curriculo.tex"}
+```  
+ou  
+```json
+{"tool":"Search a PDF's content","pdf":"/caminho/para/curriculo.pdf","query":"Python"}
+```

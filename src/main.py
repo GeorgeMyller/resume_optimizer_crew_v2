@@ -9,7 +9,7 @@ def run():
     load_dotenv()
     # Substitua pelos seus inputs reais
     inputs = {
-        'resume_path': 'input/',
+        'resume_path': 'src/input',
         'job_url': 'https://jobs.foundever.com/job/Porto-Data-Analyst-Porto%2C-Portugal-Port/1278591600/?utm_source=LINKEDIN&utm_medium=referrer'
     }
     result = ResumeOptimizerCrew().crew().kickoff(inputs=inputs)

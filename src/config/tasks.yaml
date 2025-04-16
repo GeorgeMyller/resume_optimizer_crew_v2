@@ -9,8 +9,8 @@ extract_curriculum_data:
   expected_output: >
     A structured dictionary with the extracted resume data (experiences, skills, education).
   inputs:
-    file_path: input/
-    
+    file_path: /Users/georgesouza/Desktop/Python2025/Curriculo/resume_optimizer_crew_v2/input/
+
 analyze_job_description:
   description: >
     Use the WebScraperTool to read the job description from the URL provided in the inputs ('job_url') and extract:

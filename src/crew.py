@@ -40,7 +40,7 @@ class ResumeOptimizerCrew():
             tools=[
                 LatexReaderTool,
                 PDFSearchTool(
-                    pdf_url="input/curriculo.pdf",
+                    pdf_url="src/input",
                     config=tool_config 
                     )],
             verbose=True,
