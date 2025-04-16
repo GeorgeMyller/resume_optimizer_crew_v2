@@ -8,8 +8,8 @@ from crew import ResumeOptimizerCrew
 def run():
     load_dotenv()
     # Inputs corrigidos e prints de depuração
-    resume_path = 'input/curriculo.tex'  # Caminho corrigido
-    job_url = 'https://jobs.foundever.com/job/Porto-Data-Analyst-Porto%2C-Portugal-Port/1278591600/?utm_source=LINKEDIN&utm_medium=referrer'
+    resume_path = ['src/input/curriculo.tex', 'src/input/curriculo.pdf']
+    job_url = 'https://sky.wd3.myworkdayjobs.com/sky_careers/job/Aveiro/Summer-Internship---Aveiro_R0045645'
     print(f"[DEBUG] Usando resume_path: {resume_path}")
     print(f"[DEBUG] Usando job_url: {job_url}")
     inputs = {
