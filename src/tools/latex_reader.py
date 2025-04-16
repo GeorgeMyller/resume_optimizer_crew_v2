@@ -1,8 +1,9 @@
-from crewai_tools import tool
+from crewai.tools import tool
 from pylatexenc.latex2text import LatexNodes2Text
 
+
 @tool("LatexReaderTool")
-def latex_reader_tool(inputs: dict) -> str:
+def LatexReaderTool(inputs: dict) -> str:
     """
     Extrai texto limpo e estruturado de um arquivo .tex de currículo.
 

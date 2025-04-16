@@ -3,22 +3,83 @@ This module defines the Crew object for the resume optimization process.
 It orchestrates the agents and tasks defined in the YAML configuration files.
 """
 import os
-from crewai import Crew, Process
-from .config import agents  # Assuming agents are loaded from agents.yaml via this import
-from .config import tasks    # Assuming tasks are loaded from tasks.yaml via this import
+from crewai import Agent, Crew, Process, Task, LLM
+from crewai.project import CrewBase, agent, crew, task
+from crewai_tools import FileReadTool, ScrapeWebsiteTool, PDFSearchTool
+from tools.latex_reader import LatexReaderTool
+from dotenv import load_dotenv
+from embedchain.config import AppConfig
+from src.tools.gemini_embedder import GeminiEmbedder
+from embedchain.embedder.base import BaseEmbedder
 
-# Set environment variable to disable chromadb's default embedding function if needed
-# os.environ['CHROMA_DISABLE_DEFAULT_EMBEDDING'] = "true" # Uncomment if chromadb is used and default embedding needs disabling
+load_dotenv()
 
-# Instantiate the Crew
-# The agents and tasks are loaded from the imported dictionaries
-resume_optimizer_crew = Crew(
-    agents=list(agents.values()),
-    tasks=list(tasks.values()),
-    process=Process.sequential,  # Defines that tasks will run one after the other
-    verbose=2 # Optional: Sets the verbosity level (0, 1, or 2)
-    # memory=True # Optional: Enables memory for the crew
-    # manager_llm=None # Optional: Define a manager LLM for hierarchical process
-)
 
-# Note: The actual kickoff and input handling will be in main.py as per instructions.
+@CrewBase
+class ResumeOptimizerCrew():
+    """Resume Optimizer Crew"""
+
+    @agent
+    def curriculum_reader(self) -> Agent:
+        return Agent(
+            config=self.agents_config['curriculum_reader'],
+            tools=[
+                LatexReaderTool,
+                PDFSearchTool(
+                    pdf_url="input/curriculo.pdf",
+                    config=tool_config 
+                    )],
+            verbose=True,
+            llm=LLM("gemini/gemini-1.5-flash", credentials=os.getenv('GOOGLE_API_KEY')),
+        )
+
+    @agent
+    def job_analyzer(self) -> Agent:
+        return Agent(
+            config=self.agents_config['job_analyzer'],
+            tools=[ScrapeWebsiteTool()],
+            verbose=True,
+            allow_delegation=False,
+            llm=LLM("gemini/gemini-1.5-flash", credentials=os.getenv('GOOGLE_API_KEY'))
+        )
+
+    @agent
+    def resume_editor(self) -> Agent:
+        return Agent(
+            config=self.agents_config['resume_editor'],
+            tools=[],
+            verbose=True,
+            llm=LLM("gemini/gemini-1.5-flash", credentials=os.getenv('GOOGLE_API_KEY')),
+output_file='output/novo_curriculo.tex'
+        )
+
+    @task
+    def extract_curriculum_data(self) -> Task:
+        return Task(
+            config=self.tasks_config['extract_curriculum_data'],
+            agent=self.curriculum_reader()
+        )
+
+    @task
+    def analyze_job_description(self) -> Task:
+        return Task(
+            config=self.tasks_config['analyze_job_description'],
+            agent=self.job_analyzer()
+        )
+
+    @task
+    def adjust_resume_for_job(self) -> Task:
+        return Task(
+            config=self.tasks_config['adjust_resume_for_job'],
+            agent=self.resume_editor(),
+            context=[self.extract_curriculum_data(), self.analyze_job_description()] # Pass context from previous tasks
+        )
+
+    @crew
+    def crew(self) -> Crew:
+        return Crew(
+            agents=self.agents,
+            tasks=self.tasks,
+            process=Process.sequential,
+            verbose=True,
+        )

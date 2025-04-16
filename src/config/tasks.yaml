@@ -1,29 +1,38 @@
-
 extract_curriculum_data:
   description: >
-    Leia o arquivo `.tex` do currículo e extraia uma lista estruturada contendo:
-    - Experiências profissionais
-    - Habilidades
-    - Formação acadêmica
+    Use the PDF Search tool to read the curriculum PDF file provided in the inputs and extract a structured list containing:
+    Use the LatexReaderTool to read the curriculum `.tex` file provided in the inputs ('resume_path') and extract a structured list containing:
+
+    - Professional experiences
+    - Skills
+    - Academic background
   expected_output: >
-    Um dicionário estruturado com esses três campos.
+    A structured dictionary with the extracted resume data (experiences, skills, education).
+  inputs:
+    pdf: input/curriculo.pdf
+    tex:  input/curriculo.tex
 
 analyze_job_description:
   description: >
-    Leia a descrição da vaga (PDF ou link) e extraia:
-    - Requisitos técnicos
-    - Experiências valorizadas
-    - Palavras-chave
+    Use the WebScraperTool to read the job description from the URL provided in the inputs ('job_url') and extract:
+    - Technical requirements
+    - Valued experiences
+    - Keywords
   expected_output: >
-    Um resumo com bullet points indicando o que precisa ser evidenciado no currículo.
+    A bullet-point summary highlighting the key requirements and aspects to emphasize in the resume, based on the job description analysis.
 
 adjust_resume_for_job:
   description: >
-    Com base nas informações extraídas do currículo original e nos requisitos da vaga, reorganize e reescreva partes do `.tex` para melhorar a aderência. Não adicione novas experiências:
-    - Elabore para destacar o conteúdo, aumentando suas chances de ser encontrado por recrutadores. Fotos e elementos gráficos não são recomendados, salvo quando solicitados, pois dificultam a análise por sistemas de inteligência artificial (ATS).
-    - Habilidades e qualificações têm mais destaque do que dados pessoais, tornando o currículo mais atrativo para os recrutadores.
-    - As informações devem ser organizadas de forma estratégica, facilitando a leitura e a compreensão.
-    - No campo Objetivo, utilize sempre a frase: “Atuar como [nome_da_vaga]”, evitando colocar mais de uma função no mesmo currículo.
-    - Apenas as experiências e cursos mais relevantes e recentes foram mantidos para garantir que o currículo tenha, no máximo, duas páginas. Experiências anteriores podem ser abordadas durante a entrevista.
+    Using the structured resume data from the 'extract_curriculum_data' task and the job analysis summary from the 'analyze_job_description' task as context, rewrite and reorganize sections of the original resume content to improve alignment with the target job.
+    Focus on highlighting relevant skills and experiences based *only* on the provided resume content. Do not invent new information or experiences.
+    Follow these guidelines:
+    - Emphasize content relevant to the job to improve ATS scoring. Avoid complex graphics unless requested.
+    - Prioritize skills and qualifications over personal data.
+    - Organize information strategically for readability.
+    - Set the Objective field to: "Atuar como [job_title]" (where [job_title] is inferred from the job description).
+    - Ensure the final resume content is concise, ideally fitting within two pages when compiled.
   expected_output: >
-    Um novo arquivo `.tex` com as modificações de nome Curruculo_[nome_da_vaga].tex.
+    The complete, modified content of the resume as a single block of LaTeX code, ready to be saved to a `.tex` file.
+  context:
+    - extract_curriculum_data
+    - analyze_job_description
