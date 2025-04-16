@@ -6,7 +6,7 @@ import os
 import sys
 import argparse
 from datetime import datetime
-from src.crew import crew
+from .crew import resume_optimizer_crew # Changed from 'from src.crew import crew'
 from dotenv import load_dotenv
 
 # Load environment variables from .env file
@@ -24,7 +24,7 @@ if not os.environ.get("OPENAI_API_BASE"):
     
 if not os.environ.get("OPENAI_MODEL_NAME"):
     # Set default model if not provided
-    os.environ["OPENAI_MODEL_NAME"] = "gemini-pro"
+    os.environ["OPENAI_MODEL_NAME"] = "gemini-2.0-flash"
 
 def generate_unique_filename(base_name="output", extension=".tex"):
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -35,7 +35,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Run the Resume Optimizer Crew.')
     parser.add_argument('--resume', type=str, required=True, help='Path to the resume .tex file.')
     parser.add_argument('--job-url', type=str, required=True, help='URL of the job description.')
-    
+    parser.add_argument('--output-dir', type=str, default='output', help='Directory to save the optimized resume.')
+
     # Parse arguments
     args = parser.parse_args()
 
@@ -46,7 +47,7 @@ if __name__ == "__main__":
     }
     
     print("\n🚀 Kicking off the Crew...")
-    result = crew.kickoff(inputs=inputs) # Pass inputs to kickoff
+    result = resume_optimizer_crew.kickoff(inputs=inputs) # Use the imported name
     
     print("\n✅ Crew finished execution.")
     print("\n📄 Generated Resume Content:")

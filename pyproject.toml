@@ -10,7 +10,7 @@ dependencies = [
     "composio-gemini>=0.7.14",
     "crewai>=0.108.0",
     "crewai-tools>=0.38.1",
-    "numpy>=2.2.4",
+    "numpy<2.0",
     "onnxruntime==1.17.3",
     "packaging>=24.2",
     "requests>=2.32.3",
