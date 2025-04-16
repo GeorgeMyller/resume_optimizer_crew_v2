@@ -3,6 +3,37 @@ import os
 import tempfile
 import pytest
 
+# Stub pylatexenc.latex2text for testing
+import types
+pylatexenc = types.ModuleType('pylatexenc')
+latex2text_mod = types.ModuleType('pylatexenc.latex2text')
+class DummyConverter:
+    def latex_to_text(self, content):
+        # Simple stub: remove LaTeX commands for testing
+        import re
+        text = re.sub(r'\\textbf\{([^}]*)\}', r'\1', content)
+        return text.replace('\\newline', ' ')
+latex2text_mod.LatexNodes2Text = DummyConverter
+pylatexenc.latex2text = latex2text_mod
+import sys
+sys.modules['pylatexenc'] = pylatexenc
+sys.modules['pylatexenc.latex2text'] = latex2text_mod
+
+
+# Stub crewai.tools.tool decorator for testing
+import sys, types
+crewai = types.ModuleType('crewai')
+crewai.tools = types.ModuleType('crewai.tools')
+def dummy_tool(name):
+    def decorator(func):
+        func.__wrapped__ = func
+        return func
+    return decorator
+crewai.tools.tool = dummy_tool
+sys.modules['crewai'] = crewai
+sys.modules['crewai.tools'] = crewai.tools
+
+
 # Ajusta o caminho para importar o módulo src/tools
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
 

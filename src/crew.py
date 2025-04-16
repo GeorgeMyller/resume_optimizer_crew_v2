@@ -38,11 +38,11 @@ class ResumeOptimizerCrew():
         return Agent(
             config=self.agents_config['curriculum_reader'],
             tools=[
-                LatexReaderTool,
-                PDFSearchTool(
-                    pdf_url="src/input",
-                    config=tool_config 
-                    )],
+            LatexReaderTool,
+            PDFSearchTool(
+                pdf="src/input/*.pdf",  # Matches all PDF files in the folder
+                config=tool_config 
+                )],
             verbose=True,
             llm=LLM("gemini/gemini-1.5-flash", credentials=os.getenv('GOOGLE_API_KEY')),
         )

@@ -10,9 +10,12 @@ dependencies = [
     "composio-gemini>=0.7.14",
     "crewai>=0.108.0",
     "crewai-tools>=0.38.1",
+    "google-generativeai>=0.8.4",
     "numpy<2.0",
     "onnxruntime==1.17.3",
     "packaging>=24.2",
+    "pylatexenc>=2.10",
+    "pytest>=8.3.5",
     "requests>=2.32.3",
     "ruff>=0.11.4",
 ]

@@ -1,15 +1,13 @@
 extract_curriculum_data:
   description: >
-    Use the PDF Search tool to read the curriculum PDF file provided in the inputs and extract a structured list containing:
     Use the LatexReaderTool to read the curriculum `.tex` file provided in the inputs ('resume_path') and extract a structured list containing:
-
     - Professional experiences
     - Skills
     - Academic background
   expected_output: >
     A structured dictionary with the extracted resume data (experiences, skills, education).
   inputs:
-    file_path: /Users/georgesouza/Desktop/Python2025/Curriculo/resume_optimizer_crew_v2/input/
+    file_path: ${inputs.resume_path}
 
 analyze_job_description:
   description: >
@@ -19,6 +17,8 @@ analyze_job_description:
     - Keywords
   expected_output: >
     A bullet-point summary highlighting the key requirements and aspects to emphasize in the resume, based on the job description analysis.
+  inputs:
+    job_url: ${inputs.job_url}
 
 adjust_resume_for_job:
   description: >
