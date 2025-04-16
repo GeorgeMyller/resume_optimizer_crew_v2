@@ -296,3 +296,7 @@ uv self update
 
 *   **Grouping:** If multiple related suggestions are accepted in sequence, suggest a single comprehensive commit.
 *   **Review:** The user will always have the opportunity to review/edit the message before committing.
+
+### Documenteatios of APIs
+* **Linkedin** https://github.com/linkedin-developers/linkedin-api-python-client 
+* **Linkedin** https://learn.microsoft.com/en-us/linkedin/

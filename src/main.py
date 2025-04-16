@@ -4,9 +4,9 @@ It loads environment variables, configures the crew, and kicks off the optimizat
 '''
 import os
 import sys
+import argparse
 from datetime import datetime
-sys.path.append('/Users/georgesouza/Desktop/Python2025/Curriculo/resume_optimizer_crew_v2/src')
-from resume_optimizer_crew.crew import crew
+from src.crew import crew
 from dotenv import load_dotenv
 
 # Load environment variables from .env file
@@ -31,11 +31,38 @@ def generate_unique_filename(base_name="output", extension=".tex"):
     return f"{base_name}_{timestamp}{extension}"
 
 if __name__ == "__main__":
-    result = crew.kickoff(inputs={})
-    print(result)
-    unique_filename = generate_unique_filename(base_name="novo_curriculo")
-    output_path = os.path.join("output", unique_filename)
-    # Salvar o arquivo com o nome único
-    with open(output_path, "w") as output_file:
-        output_file.write("Conteúdo gerado pelo CrewAI")  # Substitua pelo conteúdo real
-    print(f"Arquivo gerado: {output_path}")
+    # Setup argument parser
+    parser = argparse.ArgumentParser(description='Run the Resume Optimizer Crew.')
+    parser.add_argument('--resume', type=str, required=True, help='Path to the resume .tex file.')
+    parser.add_argument('--job-url', type=str, required=True, help='URL of the job description.')
+    
+    # Parse arguments
+    args = parser.parse_args()
+
+    # Define inputs for the crew
+    inputs = {
+        'resume_path': args.resume,
+        'job_url': args.job_url
+    }
+    
+    print("\n🚀 Kicking off the Crew...")
+    result = crew.kickoff(inputs=inputs) # Pass inputs to kickoff
+    
+    print("\n✅ Crew finished execution.")
+    print("\n📄 Generated Resume Content:")
+    print(result) # Print the actual result
+    
+    # Ensure output directory exists
+    output_dir = "output"
+    os.makedirs(output_dir, exist_ok=True)
+
+    unique_filename = generate_unique_filename(base_name="optimized_resume")
+    output_path = os.path.join(output_dir, unique_filename)
+    
+    # Save the actual result to the file
+    try:
+        with open(output_path, "w", encoding='utf-8') as output_file:
+            output_file.write(result) # Save the actual result
+        print(f"\n💾 Optimized resume saved to: {output_path}")
+    except Exception as e:
+        print(f"\n❌ Error saving file: {e}")

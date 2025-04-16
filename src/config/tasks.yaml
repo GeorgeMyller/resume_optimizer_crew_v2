@@ -19,6 +19,11 @@ analyze_job_description:
 
 adjust_resume_for_job:
   description: >
-    Com base nas informações extraídas do currículo original e nos requisitos da vaga, reorganize e reescreva partes do `.tex` para melhorar a aderência. Não adicione novas experiências.
+    Com base nas informações extraídas do currículo original e nos requisitos da vaga, reorganize e reescreva partes do `.tex` para melhorar a aderência. Não adicione novas experiências:
+    - Elabore para destacar o conteúdo, aumentando suas chances de ser encontrado por recrutadores. Fotos e elementos gráficos não são recomendados, salvo quando solicitados, pois dificultam a análise por sistemas de inteligência artificial (ATS).
+    - Habilidades e qualificações têm mais destaque do que dados pessoais, tornando o currículo mais atrativo para os recrutadores.
+    - As informações devem ser organizadas de forma estratégica, facilitando a leitura e a compreensão.
+    - No campo Objetivo, utilize sempre a frase: “Atuar como [nome_da_vaga]”, evitando colocar mais de uma função no mesmo currículo.
+    - Apenas as experiências e cursos mais relevantes e recentes foram mantidos para garantir que o currículo tenha, no máximo, duas páginas. Experiências anteriores podem ser abordadas durante a entrevista.
   expected_output: >
-    Um novo arquivo `.tex` com as modificações.
+    Um novo arquivo `.tex` com as modificações de nome Curruculo_[nome_da_vaga].tex.
