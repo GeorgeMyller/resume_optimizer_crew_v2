@@ -9,9 +9,8 @@ extract_curriculum_data:
   expected_output: >
     A structured dictionary with the extracted resume data (experiences, skills, education).
   inputs:
-    pdf: input/curriculo.pdf
-    tex:  input/curriculo.tex
-
+    file_path: input/
+    
 analyze_job_description:
   description: >
     Use the WebScraperTool to read the job description from the URL provided in the inputs ('job_url') and extract:
