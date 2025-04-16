@@ -5,8 +5,9 @@ It orchestrates the agents and tasks defined in the YAML configuration files.
 import os
 from crewai import Agent, Crew, Process, Task, LLM
 from crewai.project import CrewBase, agent, crew, task
+# Import necessary tools and config
 from crewai_tools import FileReadTool, ScrapeWebsiteTool, PDFSearchTool
-from tools.latex_reader import LatexReaderTool
+from tools.latex_reader import LatexReaderTool 
 from dotenv import load_dotenv
 from embedchain.config import AppConfig
 from src.tools.gemini_embedder import GeminiEmbedder
@@ -21,6 +22,19 @@ class ResumeOptimizerCrew():
 
     @agent
     def curriculum_reader(self) -> Agent:
+        # Crie a configuração específica para o embedder
+        embedder_config = {
+            "provider": "google",
+            "config": {
+            "model": "models/embedding-001",
+            }
+        }
+        # Crie o dicionário de configuração para o App/PDFSearchTool
+        # Inclua apenas as chaves esperadas pelo embedchain (neste caso, 'embedder')
+        tool_config = {
+            "embedder": embedder_config
+        }
+
         return Agent(
             config=self.agents_config['curriculum_reader'],
             tools=[
@@ -50,7 +64,7 @@ class ResumeOptimizerCrew():
             tools=[],
             verbose=True,
             llm=LLM("gemini/gemini-1.5-flash", credentials=os.getenv('GOOGLE_API_KEY')),
-output_file='output/novo_curriculo.tex'
+            output_file='output/novo_curriculo.tex'
         )
 
     @task
@@ -71,8 +85,7 @@ output_file='output/novo_curriculo.tex'
     def adjust_resume_for_job(self) -> Task:
         return Task(
             config=self.tasks_config['adjust_resume_for_job'],
-            agent=self.resume_editor(),
-            context=[self.extract_curriculum_data(), self.analyze_job_description()] # Pass context from previous tasks
+            agent=self.resume_editor()
         )
 
     @crew
