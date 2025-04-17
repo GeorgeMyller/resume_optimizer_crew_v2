@@ -28,13 +28,13 @@ This file consolidates instructions for GitHub Copilot regarding the **Resume Op
     *   **`role`**: Resume Reader
     *   **`goal`**: Understand the full content of the `.tex` resume.
     *   **`backstory`**: Specialist in resume analysis and LaTeX.
-    *   **`tools`**: `LatexReaderTool`
+    *   **`tool`**: `LatexReaderTool`
 
 2.  **Job Analyzer (`job_analyzer`)**
     *   **`role`**: Job Analyzer
     *   **`goal`**: Extract the main requirements from the job description (via URL).
     *   **`backstory`**: Senior HR professional experienced in identifying job needs.
-    *   **`tools`**: `WebScraperTool` (used by the `analyze_job_description` task)
+    *   **`tool`**: `WebScraperTool` (used by the `analyze_job_description` task)
 
 3.  **Resume Editor (`resume_editor`)**
     *   **`role`**: Resume Editor

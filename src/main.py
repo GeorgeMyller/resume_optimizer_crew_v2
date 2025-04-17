@@ -8,7 +8,8 @@ from crew import ResumeOptimizerCrew
 def run():
     load_dotenv()
     # Inputs corrigidos e prints de depuração
-    resume_path = ['src/input/curriculo.tex', 'src/input/curriculo.pdf']
+    # Use the .tex resume path only; PDF files are handled by PDFSearchTool internally
+    resume_path = 'src/input/curriculo.tex'
     job_url = 'https://sky.wd3.myworkdayjobs.com/sky_careers/job/Aveiro/Summer-Internship---Aveiro_R0045645'
     print(f"[DEBUG] Usando resume_path: {resume_path}")
     print(f"[DEBUG] Usando job_url: {job_url}")
@@ -17,7 +18,8 @@ def run():
         'job_url': job_url
     }
     try:
-        result = ResumeOptimizerCrew().crew().kickoff(inputs=inputs)
+        # Pass inputs as keyword arguments to kickoff for proper mapping
+        result = ResumeOptimizerCrew().crew().kickoff(**inputs)
         print("\n✅ Crew finished execution.")
         print("\n📄 Generated Resume Content:")
         print(result)

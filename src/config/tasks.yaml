@@ -1,6 +1,6 @@
 extract_curriculum_data:
   description: >
-     Use the LatexReaderTool and PDFSearchTool to read the curriculum files provided in the inputs ('resume_path').
+     Use the LatexReaderTool and PDFSearchTool to read the curriculum files provided in the inputs ('resume_path'), which may include multiple `.tex` or `.pdf` files.
      If a path points to a `.tex` file, use LatexReaderTool to extract a structured list containing:
      - Professional experiences
      - Skills
@@ -16,24 +16,30 @@ extract_curriculum_data:
 
 analyze_job_description:
   description: >
-    Use the WebScraperTool to read the job description from the URL provided in the inputs ('job_url') and extract:
+    Use the WebScraperTool to read the job description from the URL provided in the inputs ('job_url'), and extract:
     - Technical requirements
     - Valued experiences
     - Keywords
+    Also infer the job title from the description and include it.
   expected_output: >
-    A bullet-point summary highlighting the key requirements and aspects to emphasize in the resume, based on the job description analysis.
+    A structured summary containing:
+    - job_title: the inferred title of the position
+    - bullet points highlighting the key requirements and aspects to emphasize in the resume.
   inputs:
     - job_url
 
 adjust_resume_for_job:
+  inputs:
+    - extract_curriculum_data
+    - analyze_job_description
   description: >
-    Using the structured resume data from the 'extract_curriculum_data' task and the job analysis summary from the 'analyze_job_description' task as context, rewrite and reorganize sections of the original resume content to improve alignment with the target job.
+    Using the structured resume data from the 'extract_curriculum_data' task and the job analysis summary (including job_title) from the 'analyze_job_description' task as context, rewrite and reorganize sections of the original resume content to improve alignment with the target job.
     Focus on highlighting relevant skills and experiences based *only* on the provided resume content. Do not invent new information or experiences.
     Follow these guidelines:
+    - Set the Objective field to: "Atuar como [job_title]" (where [job_title] is the inferred title from the job analysis).
     - Emphasize content relevant to the job to improve ATS scoring. Avoid complex graphics unless requested.
     - Prioritize skills and qualifications over personal data.
     - Organize information strategically for readability.
-    - Set the Objective field to: "Atuar como [job_title]" (where [job_title] is inferred from the job description).
     - Ensure the final resume content is concise, ideally fitting within two pages when compiled.
   expected_output: >
     The complete, modified content of the resume as a single block of LaTeX code, ready to be saved to a `.tex` file.

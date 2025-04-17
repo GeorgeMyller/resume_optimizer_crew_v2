@@ -6,7 +6,7 @@ import os
 from crewai import Agent, Crew, Process, Task, LLM
 from crewai.project import CrewBase, agent, crew, task
 # Import necessary tools and config
-from crewai_tools import FileReadTool, ScrapeWebsiteTool, PDFSearchTool
+from crewai_tools import  PDFSearchTool, SeleniumScrapingTool
 from tools.latex_reader import LatexReaderTool 
 from dotenv import load_dotenv
 from embedchain.config import AppConfig
@@ -37,12 +37,7 @@ class ResumeOptimizerCrew():
 
         return Agent(
             config=self.agents_config['curriculum_reader'],
-            tools=[
-            LatexReaderTool,
-            PDFSearchTool(
-                pdf="src/input/*.pdf",  # Matches all PDF files in the folder
-                config=tool_config 
-                )],
+            tools=[LatexReaderTool],  # Only read .tex, skip PDF tool to avoid input list issues
             verbose=True,
             llm=LLM("gemini/gemini-1.5-flash", credentials=os.getenv('GOOGLE_API_KEY')),
         )
@@ -51,7 +46,7 @@ class ResumeOptimizerCrew():
     def job_analyzer(self) -> Agent:
         return Agent(
             config=self.agents_config['job_analyzer'],
-            tools=[ScrapeWebsiteTool()],
+            tools=[SeleniumScrapingTool()],
             verbose=True,
             allow_delegation=False,
             llm=LLM("gemini/gemini-1.5-flash", credentials=os.getenv('GOOGLE_API_KEY'))
